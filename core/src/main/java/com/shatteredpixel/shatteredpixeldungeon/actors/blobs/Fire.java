@@ -117,6 +117,7 @@ public class Fire extends Blob {
 	public void use( BlobEmitter emitter ) {
 		super.use( emitter );
 		emitter.pour( FlameParticle.FACTORY, 0.03f );
+		emitter.blobShade(0xEE7722);
 	}
 	
 	@Override

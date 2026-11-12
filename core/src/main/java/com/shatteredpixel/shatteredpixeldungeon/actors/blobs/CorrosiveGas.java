@@ -96,6 +96,7 @@ public class CorrosiveGas extends Blob {
 		super.use( emitter );
 
 		emitter.pour( Speck.factory(Speck.CORROSION), 0.4f );
+		emitter.blobShade(0xFF8800);
 	}
 
 	@Override

@@ -75,6 +75,7 @@ public class GooWarn extends Blob {
 	public void use( BlobEmitter emitter ) {
 		super.use( emitter );
 		emitter.pour(GooSprite.GooParticle.FACTORY, 0.03f );
+		emitter.blobShade(0x000000);
 	}
 
 	@Override

@@ -915,6 +915,7 @@ public class Tengu extends Mob {
 				super.use(emitter);
 				
 				emitter.pour( Speck.factory( Speck.STEAM ), 0.2f );
+				emitter.blobShade(0xEE7722);
 			}
 			
 			@Override
@@ -1091,6 +1092,7 @@ public class Tengu extends Mob {
 				super.use(emitter);
 				
 				emitter.pour( SparkParticle.STATIC, 0.10f );
+				emitter.blobShade(0xDDDD00);
 			}
 			
 			@Override

@@ -62,6 +62,7 @@ public class StormCloud extends Blob {
 	public void use( BlobEmitter emitter ) {
 		super.use( emitter );
 		emitter.pour( Speck.factory( Speck.STORM ), 0.4f );
+		emitter.blobShade(0x8AD8D8);
 	}
 	
 	@Override

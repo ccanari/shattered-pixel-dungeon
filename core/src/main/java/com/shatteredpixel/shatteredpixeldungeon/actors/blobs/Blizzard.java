@@ -65,6 +65,7 @@ public class Blizzard extends Blob {
 	public void use( BlobEmitter emitter ) {
 		super.use( emitter );
 		emitter.pour( Speck.factory( Speck.BLIZZARD, true ), 0.4f );
+		emitter.blobShade(0x00CCFF);
 	}
 	
 	@Override

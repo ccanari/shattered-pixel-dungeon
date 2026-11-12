@@ -56,6 +56,7 @@ public class ConfusionGas extends Blob {
 		super.use( emitter );
 
 		emitter.pour( Speck.factory( Speck.CONFUSION, true ), 0.4f );
+		emitter.blobShade(0x8888B8);
 	}
 
 	@Override

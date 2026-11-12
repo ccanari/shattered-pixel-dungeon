@@ -74,6 +74,7 @@ public class Web extends Blob {
 		super.use( emitter );
 		
 		emitter.pour( WebParticle.FACTORY, 0.25f );
+		emitter.blobShade(0xCCCCCC);
 	}
 
 	@Override

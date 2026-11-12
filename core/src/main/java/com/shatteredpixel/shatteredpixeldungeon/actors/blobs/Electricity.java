@@ -119,6 +119,7 @@ public class Electricity extends Blob {
 	public void use( BlobEmitter emitter ) {
 		super.use( emitter );
 		emitter.start( SparkParticle.FACTORY, 0.05f, 0 );
+		emitter.blobShade(0xDDDD00);
 	}
 	
 	@Override

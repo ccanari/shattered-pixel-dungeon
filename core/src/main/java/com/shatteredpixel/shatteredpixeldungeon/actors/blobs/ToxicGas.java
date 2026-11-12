@@ -60,6 +60,7 @@ public class ToxicGas extends Blob implements Hero.Doom {
 		super.use( emitter );
 
 		emitter.pour( Speck.factory( Speck.TOXIC ), 0.4f );
+		emitter.blobShade(0x50ff60);
 	}
 	
 	@Override

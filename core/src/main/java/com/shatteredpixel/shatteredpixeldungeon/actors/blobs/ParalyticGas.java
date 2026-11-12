@@ -60,6 +60,7 @@ public class ParalyticGas extends Blob {
 		super.use( emitter );
 		
 		emitter.pour( Speck.factory( Speck.PARALYSIS ), 0.4f );
+		emitter.blobShade(0xFFFF66);
 	}
 	
 	@Override

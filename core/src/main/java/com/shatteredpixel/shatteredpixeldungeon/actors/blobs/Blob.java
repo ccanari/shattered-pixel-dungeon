@@ -124,6 +124,7 @@ public class Blob extends Actor {
 			int[] tmp = off;
 			off = cur;
 			cur = tmp;
+			emitter.blobShadeUpdate();
 
 			for (int i : cellsToFlagUpdate){
 				Dungeon.level.updateCellFlags(i);
@@ -220,6 +221,7 @@ public class Blob extends Actor {
 		if (volume == 0) return;
 		volume -= cur[cell];
 		cur[cell] = 0;
+		emitter.blobShadeUpdate();
 	}
 
 	public void fullyClear(){
@@ -227,6 +229,7 @@ public class Blob extends Actor {
 		area.setEmpty();
 		cur = new int[Dungeon.level.length()];
 		off = new int[Dungeon.level.length()];
+		emitter.blobShadeUpdate();
 	}
 
 	public void onBuildFlagMaps( Level l ){

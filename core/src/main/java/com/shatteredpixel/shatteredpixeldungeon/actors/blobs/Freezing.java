@@ -97,6 +97,7 @@ public class Freezing extends Blob {
 	public void use( BlobEmitter emitter ) {
 		super.use( emitter );
 		emitter.start( SnowParticle.FACTORY, 0.05f, 0 );
+		emitter.blobShade(0x00CCFF);
 	}
 	
 	@Override

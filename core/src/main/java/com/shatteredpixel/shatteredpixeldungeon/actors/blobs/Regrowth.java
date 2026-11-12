@@ -77,5 +77,6 @@ public class Regrowth extends Blob {
 		super.use( emitter );
 		
 		emitter.start( LeafParticle.LEVEL_SPECIFIC, 0.2f, 0 );
+		emitter.blobShade(0x88CC44);
 	}
 }

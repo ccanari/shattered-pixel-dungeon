@@ -31,6 +31,7 @@ public class SmokeScreen extends Blob {
 	public void use( BlobEmitter emitter ) {
 		super.use( emitter );
 		emitter.pour( Speck.factory( Speck.SMOKE ), 0.1f );
+		emitter.blobShade(0x000000);
 	}
 
 	@Override

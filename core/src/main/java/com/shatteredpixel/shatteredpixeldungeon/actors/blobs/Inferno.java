@@ -88,6 +88,7 @@ public class Inferno extends Blob {
 		super.use( emitter );
 		
 		emitter.pour( Speck.factory( Speck.INFERNO, true ), 0.4f );
+		emitter.blobShade(0xEE7722);
 	}
 	
 	@Override

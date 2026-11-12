@@ -70,6 +70,7 @@ public class StenchGas extends Blob {
 		super.use( emitter );
 
 		emitter.pour( Speck.factory(Speck.STENCH), 0.4f );
+		emitter.blobShade(0x00CC00);
 	}
 
 	@Override

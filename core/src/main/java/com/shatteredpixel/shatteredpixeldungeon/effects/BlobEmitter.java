@@ -27,11 +27,16 @@ import com.shatteredpixel.shatteredpixeldungeon.tiles.DungeonTilemap;
 import com.watabou.noosa.particles.Emitter;
 import com.watabou.utils.Random;
 import com.watabou.utils.RectF;
+import com.watabou.utils.SparseArray;
 
 public class BlobEmitter extends Emitter {
 	
 	private Blob blob;
-	
+
+	private int shadeColor;
+
+	public SparseArray<BlobShade> blobShadeList = new SparseArray<>();
+
 	public BlobEmitter( Blob blob ) {
 		
 		super();
@@ -71,4 +76,54 @@ public class BlobEmitter extends Emitter {
 			}
 		}
 	}
+
+	public void blobShade( int color ) {
+
+		shadeColor = color;
+		blobShadeUpdate();
+	}
+
+	public void blobShadeUpdate(){
+		synchronized(blobShadeList) {
+			for (BlobShade k : blobShadeList.valueList()) {
+				k.kill();
+			}
+		}
+		blobShadeList.clear();
+
+
+		if (blob.volume <= 0) {
+			return;
+		}
+
+		if (blob.area.isEmpty())
+			blob.setupArea();
+
+		int[] map = blob.cur;
+		float size = DungeonTilemap.SIZE;
+
+		int cell;
+		int count = 0;
+		for (int i = blob.area.left; i < blob.area.right; i++) {
+			for (int j = blob.area.top; j < blob.area.bottom; j++) {
+				cell = i + j*Dungeon.level.width();
+				boolean visible = cell < Dungeon.level.heroFOV.length && Dungeon.level.heroFOV[cell];
+				if (blob.alwaysVisible && cell < Dungeon.level.length()) {
+					visible = visible || Dungeon.level.mapped[cell] || Dungeon.level.visited[cell];
+				}
+				if (visible && map[cell] > 0) {
+					float x = i * size;
+					float y = j * size;
+					shadeEmit(++count, x, y);
+				}
+			}
+		}
+	}
+
+	public void shadeEmit(int count, float x, float y) {
+		BlobShade p = (BlobShade) recycle( BlobShade.class );
+		p.reset(shadeColor,x,y);
+		blobShadeList.put(count,p);
+	}
+
 }
