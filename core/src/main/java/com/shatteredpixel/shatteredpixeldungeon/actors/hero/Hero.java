@@ -92,6 +92,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.Heap;
 import com.shatteredpixel.shatteredpixeldungeon.items.Heap.Type;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.KindOfWeapon;
+import com.shatteredpixel.shatteredpixeldungeon.items.Waterskin;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.Armor;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.ClassArmor;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.ClothArmor;
@@ -223,6 +224,8 @@ public class Hero extends Char {
 	public boolean damageInterrupt = true;
 	public HeroAction curAction = null;
 	public HeroAction lastAction = null;
+
+	public boolean doAutoAct = false;
 
 	//reference to the enemy the hero is currently in the process of attacking
 	private Char attackTarget;
@@ -852,6 +855,20 @@ public class Hero extends Char {
 				Dungeon.level.updateFieldOfView(this, fieldOfView);
 			}
 		}
+
+		if (SPDSettings.autoDewCollect()) {
+
+			Heap heap = Dungeon.level.heaps.get(pos);
+			if (heap != null && heap.peek() != null && heap.peek() instanceof Dewdrop
+				 && !belongings.getItem(Waterskin.class).isFull()
+				 && visibleEnemies() == 0) {
+				lastAction = curAction;
+				curAction = new HeroAction.PickUp(pos);
+				doAutoAct = true;
+			} else {
+				doAutoAct = false;
+			}
+		}
 		
 		checkVisibleMobs();
 		BuffIndicator.refreshHero();
@@ -1149,8 +1166,11 @@ public class Hero extends Char {
 							GLog.i( Messages.capitalize(Messages.get(this, "you_now_have", item.name())) );
 						}
 					}
-					
+
 					curAction = null;
+
+					if(doAutoAct) { resume();}
+
 				} else {
 
 					if (waitOrPickup) {
