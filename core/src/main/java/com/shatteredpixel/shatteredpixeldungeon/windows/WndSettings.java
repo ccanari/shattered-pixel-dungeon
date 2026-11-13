@@ -1280,6 +1280,7 @@ public class WndSettings extends WndTabbed {
 		CheckBox chkAutoDewPickup;
 		CheckBox chkAutoGoldPickup;
 		OptionSlider optFrameSpeed;
+		OptionSlider optBlobShadeOpacity;
 
 		@Override
 		protected void createChildren() {
@@ -1318,6 +1319,15 @@ public class WndSettings extends WndTabbed {
 			};
 			optFrameSpeed.setSelectedValue(SPDSettings.frameSpeed());
 			add(optFrameSpeed);
+
+			optBlobShadeOpacity = new OptionSlider(Messages.get(this, "blob_shade_opacity"), Messages.get(this, "none"), Messages.get(this, "dense"), 0, 4) {
+				@Override
+				protected void onChange() {
+					SPDSettings.blobShadeOpacity(getSelectedValue());
+				}
+			};
+			optBlobShadeOpacity.setSelectedValue(SPDSettings.blobShadeOpacity());
+			add(optBlobShadeOpacity);
 		}
 
 		@Override
@@ -1330,10 +1340,12 @@ public class WndSettings extends WndTabbed {
 				chkAutoDewPickup.setRect(0, sep1.y + 1 + GAP, width / 2 - 1, SLIDER_HEIGHT);
 				chkAutoGoldPickup.setRect(chkAutoDewPickup.right() + GAP, sep1.y + 1 + GAP, width / 2 - 1, SLIDER_HEIGHT);
 				optFrameSpeed.setRect(0, chkAutoDewPickup.bottom() + GAP, width/2-1, SLIDER_HEIGHT);
+				optBlobShadeOpacity.setRect(chkAutoDewPickup.right() + GAP, chkAutoDewPickup.bottom() + GAP, width/2-1, SLIDER_HEIGHT);
 			} else {
 				chkAutoDewPickup.setRect(0, sep1.y + 1 + GAP, width, SLIDER_HEIGHT);
 				chkAutoGoldPickup.setRect(0, chkAutoDewPickup.bottom() + GAP, width / 2 - 1, SLIDER_HEIGHT);
 				optFrameSpeed.setRect(0, chkAutoGoldPickup.bottom() + GAP, width, BTN_HEIGHT);
+				optBlobShadeOpacity.setRect(0, optFrameSpeed.bottom() + GAP, width, BTN_HEIGHT);
 			}
 
 		}

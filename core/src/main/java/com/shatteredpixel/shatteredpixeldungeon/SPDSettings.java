@@ -499,5 +499,13 @@ public class SPDSettings extends GameSettings {
 		return getBoolean( KEY_AUTO_GOLD_COLLECT, false );
 	}
 
+	public static final String 	KEY_BLOBSHADE_OPACITY = "blob_shade_opacity";
+
+	public static int blobShadeOpacity() {
+		return getInt(KEY_BLOBSHADE_OPACITY, 1);
+	}
+	public static void blobShadeOpacity(int value) {
+		put(KEY_BLOBSHADE_OPACITY, value);
+	}
 
 }

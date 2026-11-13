@@ -21,6 +21,7 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.effects;
 
+import com.shatteredpixel.shatteredpixeldungeon.SPDSettings;
 import com.watabou.noosa.Image;
 import com.watabou.noosa.particles.Emitter;
 
@@ -36,7 +37,7 @@ public class BlobShade extends Image {
 
         this.x = x + 8 - origin.x;
         this.y = y + 8 - origin.y;
-        alpha(0.33f);
+        alpha((float) SPDSettings.blobShadeOpacity() / 8);
 
         hardlight(color);
 
