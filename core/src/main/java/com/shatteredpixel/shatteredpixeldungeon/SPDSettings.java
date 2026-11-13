@@ -488,4 +488,16 @@ public class SPDSettings extends GameSettings {
 
 	public static boolean autoDewCollect() {
 		return getBoolean( KEY_AUTO_DEW_COLLECT, false );
-	}}
+	}
+
+	public static final String KEY_AUTO_GOLD_COLLECT = "auto_gold_collect";
+	public static void autoGoldCollect( boolean value ) {
+		put( KEY_AUTO_GOLD_COLLECT, value );
+	}
+
+	public static boolean autoGoldCollect() {
+		return getBoolean( KEY_AUTO_GOLD_COLLECT, false );
+	}
+
+
+}
