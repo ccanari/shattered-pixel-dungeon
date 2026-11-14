@@ -1332,7 +1332,8 @@ public class WndSettings extends WndTabbed {
 			} else {
 				chkAutoDewPickup.setRect(0, sep1.y + 1 + GAP, width, SLIDER_HEIGHT);
 				optFrameSpeed.setRect(0, chkAutoDewPickup.bottom() + GAP, width, BTN_HEIGHT);
-				optBlobShadeOpacity.setRect(0, optFrameSpeed.bottom() + GAP, width, BTN_HEIGHT);			}
+				optBlobShadeOpacity.setRect(0, optFrameSpeed.bottom() + GAP, width, BTN_HEIGHT);
+			}
 
 		}
 	}
