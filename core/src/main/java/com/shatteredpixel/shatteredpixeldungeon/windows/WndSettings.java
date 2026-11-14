@@ -1278,7 +1278,6 @@ public class WndSettings extends WndTabbed {
 		RenderedTextBlock title;
 		ColorBlock sep1;
 		CheckBox chkAutoDewPickup;
-		CheckBox chkAutoGoldPickup;
 		OptionSlider optFrameSpeed;
 		OptionSlider optBlobShadeOpacity;
 
@@ -1300,16 +1299,6 @@ public class WndSettings extends WndTabbed {
 			};
 			chkAutoDewPickup.checked(SPDSettings.autoDewCollect());
 			add(chkAutoDewPickup);
-
-			chkAutoGoldPickup = new CheckBox(Messages.get(this, "auto_gold_collect")){
-				@Override
-				protected void onClick() {
-					super.onClick();
-					SPDSettings.autoGoldCollect(checked());
-				}
-			};
-			chkAutoGoldPickup.checked(SPDSettings.autoGoldCollect());
-			add(chkAutoGoldPickup);
 
 			optFrameSpeed = new OptionSlider(Messages.get(this, "frame_speed"), "x1", "x5", 1, 5) {
 				@Override
@@ -1338,15 +1327,12 @@ public class WndSettings extends WndTabbed {
 
 			if (width > 200) {
 				chkAutoDewPickup.setRect(0, sep1.y + 1 + GAP, width / 2 - 1, SLIDER_HEIGHT);
-				chkAutoGoldPickup.setRect(chkAutoDewPickup.right() + GAP, sep1.y + 1 + GAP, width / 2 - 1, SLIDER_HEIGHT);
-				optFrameSpeed.setRect(0, chkAutoDewPickup.bottom() + GAP, width/2-1, SLIDER_HEIGHT);
-				optBlobShadeOpacity.setRect(chkAutoDewPickup.right() + GAP, chkAutoDewPickup.bottom() + GAP, width/2-1, SLIDER_HEIGHT);
+				optFrameSpeed.setRect(chkAutoDewPickup.right() + GAP, sep1.y + 1 + GAP, width/2-1, SLIDER_HEIGHT);
+				optBlobShadeOpacity.setRect(0, chkAutoDewPickup.bottom() + GAP, width/2-1, SLIDER_HEIGHT);
 			} else {
 				chkAutoDewPickup.setRect(0, sep1.y + 1 + GAP, width, SLIDER_HEIGHT);
-				chkAutoGoldPickup.setRect(0, chkAutoDewPickup.bottom() + GAP, width / 2 - 1, SLIDER_HEIGHT);
-				optFrameSpeed.setRect(0, chkAutoGoldPickup.bottom() + GAP, width, BTN_HEIGHT);
-				optBlobShadeOpacity.setRect(0, optFrameSpeed.bottom() + GAP, width, BTN_HEIGHT);
-			}
+				optFrameSpeed.setRect(0, chkAutoDewPickup.bottom() + GAP, width, BTN_HEIGHT);
+				optBlobShadeOpacity.setRect(0, optFrameSpeed.bottom() + GAP, width, BTN_HEIGHT);			}
 
 		}
 	}

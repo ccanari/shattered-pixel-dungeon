@@ -87,9 +87,7 @@ import com.shatteredpixel.shatteredpixeldungeon.effects.Splash;
 import com.shatteredpixel.shatteredpixeldungeon.items.Ankh;
 import com.shatteredpixel.shatteredpixeldungeon.items.BrokenSeal;
 import com.shatteredpixel.shatteredpixeldungeon.items.Dewdrop;
-import com.shatteredpixel.shatteredpixeldungeon.items.EnergyCrystal;
 import com.shatteredpixel.shatteredpixeldungeon.items.EquipableItem;
-import com.shatteredpixel.shatteredpixeldungeon.items.Gold;
 import com.shatteredpixel.shatteredpixeldungeon.items.Heap;
 import com.shatteredpixel.shatteredpixeldungeon.items.Heap.Type;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
@@ -858,30 +856,18 @@ public class Hero extends Char {
 			}
 		}
 
-		if (Dungeon.level.heaps.get(pos) != null) {
+		if (SPDSettings.autoDewCollect()) {
 
-			doAutoAct = false;
 			Heap heap = Dungeon.level.heaps.get(pos);
-			if (SPDSettings.autoDewCollect()) {
-				if(heap.peek() != null && heap.peek() instanceof Dewdrop
-					 && !belongings.getItem(Waterskin.class).isFull()
-					 && visibleEnemies() == 0) {
-					lastAction = curAction;
-					curAction = new HeroAction.PickUp(pos);
-					doAutoAct = true;
-				}
+			if (heap != null && heap.peek() != null && heap.peek() instanceof Dewdrop
+				 && !belongings.getItem(Waterskin.class).isFull()
+				 && visibleEnemies() == 0) {
+				lastAction = curAction;
+				curAction = new HeroAction.PickUp(pos);
+				doAutoAct = true;
+			} else {
+				doAutoAct = false;
 			}
-
-			if (SPDSettings.autoGoldCollect()) {
-				if(heap.peek() != null && (heap.peek() instanceof Gold
-						|| heap.peek() instanceof EnergyCrystal)
-						&& visibleEnemies() == 0) {
-					lastAction = curAction;
-					curAction = new HeroAction.PickUp(pos);
-					doAutoAct = true;
-				}
-			}
-
 		}
 		
 		checkVisibleMobs();
