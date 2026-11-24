@@ -35,6 +35,8 @@ public class BlobEmitter extends Emitter {
 
 	private int shadeColor;
 
+	private boolean shadeActive = false;
+
 	public SparseArray<BlobShade> blobShadeList = new SparseArray<>();
 
 	public BlobEmitter( Blob blob ) {
@@ -80,10 +82,16 @@ public class BlobEmitter extends Emitter {
 	public void blobShade( int color ) {
 
 		shadeColor = color;
+		shadeActive = true;
 		blobShadeUpdate();
 	}
 
 	public void blobShadeUpdate(){
+
+		if(!shadeActive){
+			return;
+		}
+		
 		synchronized(blobShadeList) {
 			for (BlobShade k : blobShadeList.valueList()) {
 				k.kill();
@@ -107,22 +115,19 @@ public class BlobEmitter extends Emitter {
 		for (int i = blob.area.left; i < blob.area.right; i++) {
 			for (int j = blob.area.top; j < blob.area.bottom; j++) {
 				cell = i + j*Dungeon.level.width();
-				boolean visible = cell < Dungeon.level.heroFOV.length && Dungeon.level.heroFOV[cell];
-				if (blob.alwaysVisible && cell < Dungeon.level.length()) {
-					visible = visible || Dungeon.level.mapped[cell] || Dungeon.level.visited[cell];
-				}
-				if (visible && map[cell] > 0) {
+				if (map[cell] > 0) {
 					float x = i * size;
 					float y = j * size;
-					shadeEmit(++count, x, y);
+					shadeEmit(++count, x, y, cell);
 				}
 			}
 		}
 	}
 
-	public void shadeEmit(int count, float x, float y) {
+	public void shadeEmit(int count, float x, float y, int cell) {
 		BlobShade p = (BlobShade) recycle( BlobShade.class );
 		p.reset(shadeColor,x,y);
+		p.pos = cell;
 		blobShadeList.put(count,p);
 	}
 

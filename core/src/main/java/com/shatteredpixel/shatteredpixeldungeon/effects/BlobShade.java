@@ -21,11 +21,14 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.effects;
 
+import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.SPDSettings;
 import com.watabou.noosa.Image;
 import com.watabou.noosa.particles.Emitter;
 
 public class BlobShade extends Image {
+
+    public int pos;
 
     public BlobShade() {
         super(Effects.get(Effects.Type.BLOBSHADE));
@@ -46,6 +49,13 @@ public class BlobShade extends Image {
     @Override
     public void update() {
         super.update();
+        boolean visible = pos < Dungeon.level.heroFOV.length && Dungeon.level.heroFOV[pos];
+        if(visible){
+            alpha((float) SPDSettings.blobShadeOpacity() / 8);
+        }else{
+            alpha(0f);
+        }
+
 
     }
 
