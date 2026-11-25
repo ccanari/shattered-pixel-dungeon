@@ -425,6 +425,28 @@ public class DriedRose extends Artifact {
 							partialCharge = 0;
 						}
 					}
+
+					if(Dungeon.level.adjacent(Dungeon.hero.pos, ghost.pos)){
+						int heal = 0;
+						partialCharge += (ghost.HT / 100f);
+						updateQuickslot();
+
+						while (partialCharge > 1) {
+							ghost.HP++;
+							heal++;
+							partialCharge--;
+							if (ghost.HP == ghost.HT){
+								partialCharge = 0;
+							}
+						}
+
+						if(heal > 0){
+							if (ghost.sprite != null) {
+								ghost.sprite.showStatusWithIcon(CharSprite.POSITIVE, Integer.toString(heal), FloatingText.HEALING);
+							}
+						}
+					}
+
 				} else {
 					partialCharge = 0;
 				}
