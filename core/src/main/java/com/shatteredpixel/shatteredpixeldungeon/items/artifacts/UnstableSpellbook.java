@@ -80,6 +80,9 @@ public class UnstableSpellbook extends Artifact {
 	public static final String AC_READ = "READ";
 	public static final String AC_ADD = "ADD";
 
+	public Scroll readiedScroll;
+	public float scrollReadyDelay = 0f;
+
 	private final ArrayList<Class> scrolls = new ArrayList<>();
 
 	public UnstableSpellbook() {
@@ -140,17 +143,23 @@ public class UnstableSpellbook extends Artifact {
 
 	public void doReadEffect(Hero hero){
 		charge--;
+		scrollReadyDelay = 0f;
 
 		Scroll scroll;
-		do {
-			scroll = (Scroll) Generator.randomUsingDefaults(Generator.Category.SCROLL);
-		} while (scroll == null
-				//reduce the frequency of these scrolls by half
-				||((scroll instanceof ScrollOfIdentify ||
-				scroll instanceof ScrollOfRemoveCurse ||
-				scroll instanceof ScrollOfMagicMapping) && Random.Int(2) == 0)
-				//cannot roll transmutation
-				|| (scroll instanceof ScrollOfTransmutation));
+		if(readiedScroll != null){
+			scroll = readiedScroll;
+			readiedScroll = null;
+		}else {
+			do {
+				scroll = (Scroll) Generator.randomUsingDefaults(Generator.Category.SCROLL);
+			} while (scroll == null
+					//reduce the frequency of these scrolls by half
+					|| ((scroll instanceof ScrollOfIdentify ||
+					scroll instanceof ScrollOfRemoveCurse ||
+					scroll instanceof ScrollOfMagicMapping) && Random.Int(2) == 0)
+					//cannot roll transmutation
+					|| (scroll instanceof ScrollOfTransmutation));
+		}
 
 		scroll.anonymize();
 		scroll.talentChance = 0;  //spellbook does not trigger on-scroll talents
@@ -318,6 +327,13 @@ public class UnstableSpellbook extends Artifact {
 			desc += "\n\n" + Messages.get(this, "desc_empowered");
 		}
 
+		if (readiedScroll != null){
+			desc += "\n\n" + Messages.get(this, "desc_ready",
+					Messages.get(readiedScroll, "name"));
+		}else{
+			desc += "\n\n" + Messages.get(this, "desc_not_ready");
+		}
+
 		return desc;
 	}
 
@@ -343,21 +359,37 @@ public class UnstableSpellbook extends Artifact {
 	public class bookRecharge extends ArtifactBuff{
 		@Override
 		public boolean act() {
-			if (charge < chargeCap
-					&& !cursed
-					&& target.buff(MagicImmune.class) == null
+			if (!cursed && target.buff(MagicImmune.class) == null
 					&& Regeneration.regenOn()) {
-				//120 turns to charge at full, 80 turns to charge at 0/8
-				float chargeGain = 1 / (120f - (chargeCap - charge)*5f);
-				chargeGain *= RingOfEnergy.artifactChargeMultiplier(target);
-				partialCharge += chargeGain;
+				if(charge < chargeCap){
+					//120 turns to charge at full, 80 turns to charge at 0/8
+					float chargeGain = 1 / (120f - (chargeCap - charge)*5f);
+					chargeGain *= RingOfEnergy.artifactChargeMultiplier(target);
+					partialCharge += chargeGain;
 
-				while (partialCharge >= 1) {
-					partialCharge --;
-					charge ++;
+					while (partialCharge >= 1) {
+						partialCharge --;
+						charge ++;
 
-					if (charge == chargeCap){
-						partialCharge = 0;
+						if (charge == chargeCap) {
+							partialCharge = 0;
+						}
+					}
+				}
+
+                scrollReadyDelay += RingOfEnergy.artifactChargeMultiplier(target);
+				if(scrollReadyDelay > 214f - (6 * level())){
+					scrollReadyDelay = 214f - (6 * level());
+					if(readiedScroll == null){
+						do {
+							readiedScroll = (Scroll) Generator.randomUsingDefaults(Generator.Category.SCROLL);
+						} while (readiedScroll == null
+								||((readiedScroll instanceof ScrollOfIdentify ||
+								readiedScroll instanceof ScrollOfRemoveCurse ||
+								readiedScroll instanceof ScrollOfMagicMapping) && Random.Int(2) == 0)
+								|| (readiedScroll instanceof ScrollOfTransmutation));
+
+						GLog.i( Messages.get(UnstableSpellbook.class, "notice_ready") );
 					}
 				}
 			}
