@@ -26,6 +26,7 @@ import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.items.Heap;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.Armor;
+import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.UnstableSpellbook;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.Ring;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.Wand;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
@@ -242,7 +243,14 @@ public class ItemSlot extends Button {
 			status.resetColor();
 		}
 
-		if (item.icon != -1 && (item.isIdentified() || (item instanceof Ring && ((Ring) item).isKnown()))){
+		if (item instanceof UnstableSpellbook && ((UnstableSpellbook) item).readiedScroll != null){
+			extra.text( null );
+
+			itemIcon = new Image(Assets.Sprites.ITEM_ICONS);
+			itemIcon.frame(ItemSpriteSheet.Icons.film.get(((UnstableSpellbook) item).readiedScroll.icon));
+			add(itemIcon);
+
+		} else if (item.icon != -1 && (item.isIdentified() || (item instanceof Ring && ((Ring) item).isKnown()))){
 			extra.text( null );
 
 			itemIcon = new Image(Assets.Sprites.ITEM_ICONS);
