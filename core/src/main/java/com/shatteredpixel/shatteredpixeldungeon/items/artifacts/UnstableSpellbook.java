@@ -80,7 +80,7 @@ public class UnstableSpellbook extends Artifact {
 	public static final String AC_READ = "READ";
 	public static final String AC_ADD = "ADD";
 
-	public Scroll readiedScroll;
+	public Scroll readiedScroll = null;
 	public float scrollReadyDelay = 0f;
 
 	private final ArrayList<Class> scrolls = new ArrayList<>();
@@ -343,6 +343,9 @@ public class UnstableSpellbook extends Artifact {
 	public void storeInBundle( Bundle bundle ) {
 		super.storeInBundle(bundle);
 		bundle.put( SCROLLS, scrolls.toArray(new Class[scrolls.size()]) );
+		bundle.put( "readied_scroll", readiedScroll );
+		bundle.put( "scroll_ready_delay", scrollReadyDelay );
+
 	}
 
 	@Override
@@ -354,6 +357,8 @@ public class UnstableSpellbook extends Artifact {
 				if (scroll != null) scrolls.add(scroll);
 			}
 		}
+		readiedScroll = (Scroll) bundle.get("readied_scroll");
+		scrollReadyDelay = bundle.getFloat("scroll_ready_delay");
 	}
 
 	public class bookRecharge extends ArtifactBuff{
