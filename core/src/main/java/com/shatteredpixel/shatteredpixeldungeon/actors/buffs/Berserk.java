@@ -166,7 +166,7 @@ public class Berserk extends ShieldBuff implements ActionIndicator.Action {
 	}
 
 	public float enchantFactor(float chance){
-		return chance + ((Math.min(1f, power) * 0.15f) * ((Hero) target).pointsInTalent(Talent.ENRAGED_CATALYST));
+		return chance; // currently does nothing
 	}
 
 	public float damageFactor(float dmg){

@@ -32,6 +32,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Adrenaline;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AllyBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Amok;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AscensionChallenge;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Berserk;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ChampionEnemy;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Charm;
@@ -892,6 +893,14 @@ public abstract class Mob extends Char {
 					Dungeon.hero.HP = Math.min(Dungeon.hero.HT, Dungeon.hero.HP + heal);
 					Dungeon.hero.sprite.showStatusWithIcon(CharSprite.POSITIVE, Integer.toString(heal), FloatingText.HEALING);
 				}
+			}
+		}
+
+		if (Dungeon.hero.hasTalent(Talent.COMRADESHIP)){
+			if(alignment == Alignment.ALLY && Dungeon.level.heroFOV[pos]
+				&& enemy != Dungeon.hero && damage > 0){
+				Berserk berserk = Buff.affect(Dungeon.hero, Berserk.class);
+				berserk.damage(damage * Dungeon.hero.pointsInTalent(Talent.COMRADESHIP) / 2);
 			}
 		}
 
