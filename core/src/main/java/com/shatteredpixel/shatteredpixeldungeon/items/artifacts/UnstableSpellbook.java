@@ -383,8 +383,8 @@ public class UnstableSpellbook extends Artifact {
 				}
 
                 scrollReadyDelay += RingOfEnergy.artifactChargeMultiplier(target);
-				if(scrollReadyDelay > 214f - (6 * level())){
-					scrollReadyDelay = 214f - (6 * level());
+				if(scrollReadyDelay > 250f - (6 * level())){
+					scrollReadyDelay = 250f - (6 * level());
 					if(readiedScroll == null){
 						do {
 							readiedScroll = (Scroll) Generator.randomUsingDefaults(Generator.Category.SCROLL);
